@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pessoal.xmenregistrationrestapi.dto.request.PersonDTO;
 import pessoal.xmenregistrationrestapi.dto.response.MessageResponseDTO;
-import pessoal.xmenregistrationrestapi.entity.Person;
+import pessoal.xmenregistrationrestapi.exceptions.PersonNotFoundException;
 import pessoal.xmenregistrationrestapi.service.PersonService;
 
 import javax.validation.Valid;
@@ -31,5 +31,10 @@ public class PersonController {
     @GetMapping
     public List<PersonDTO> listAll() {
         return personService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
+        return personService.findById(id);
     }
 }
