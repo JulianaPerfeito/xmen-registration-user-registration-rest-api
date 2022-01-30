@@ -2,12 +2,15 @@ package pessoal.xmenregistrationrestapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import pessoal.xmenregistrationrestapi.dto.request.PersonDTO;
 import pessoal.xmenregistrationrestapi.dto.response.MessageResponseDTO;
 import pessoal.xmenregistrationrestapi.entity.Person;
 import pessoal.xmenregistrationrestapi.mapper.PersonMapper;
 import pessoal.xmenregistrationrestapi.repository.PersonRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
@@ -27,5 +30,12 @@ public class PersonService {
         return MessageResponseDTO.builder()
                 .message("Created X-men: " + savedPerson.getAlias())
                 .build();
+    }
+
+    public List<PersonDTO> listAll() {
+        List<Person> allPeople = personRepository.findAll();
+        return allPeople.stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
